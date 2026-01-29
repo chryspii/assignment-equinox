@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setPage, setLimit, setSearch, setSortOrder, setSelected, setSelectedDetail, clearSelectedDetail } from '@/store/listSlice';
@@ -19,6 +20,7 @@ type Item = {
 
 export default function ListPage() {
   const router = useRouter();
+  const t = useTranslations('main');
 
   const dispatch = useAppDispatch();
 
@@ -70,14 +72,14 @@ export default function ListPage() {
 
   return (
     <main className='section'>
-      <h2 className='section-title'>List</h2>
+      <h2 className='section-title'>{t('list')}</h2>
 
       {selectedDetail && (
         <div className='card mb-2'>
           <div className='relative overflow-x-auto px-4 py-4'>
             <div className='flex items-center gap-3 text-gray-700'>
               <span>
-                Selected Item: {selectedDetail.name}
+                {t('selected item')}: {selectedDetail.name}
               </span>
 
               <button
@@ -94,7 +96,7 @@ export default function ListPage() {
       <div className='card'>
         <div className='flex items-center justify-between p-4'>
           <div className='flex items-center gap-2'>
-            <span>Show</span>
+            <span>{t('show')}</span>
 
             <select
               value={limit}
@@ -106,14 +108,14 @@ export default function ListPage() {
               <option value={50}>50</option>
             </select>
 
-            <span>Items</span>
+            <span>{t('items')}</span>
           </div>
 
           <div className='flex items-center gap-2'>
             <input
               value={search}
               onChange={(e) => dispatch(setSearch(e.target.value))}
-              placeholder='Search...'
+              placeholder={t('search')}
               className='input-base'
             />
 
@@ -121,7 +123,7 @@ export default function ListPage() {
               className='btn btn-green px-3 py-2'
               onClick={() => router.push('/form/add')}
             >
-              Add
+              {t('add')}
             </button>
           </div>
         </div>
@@ -132,7 +134,7 @@ export default function ListPage() {
             <thead>
               <tr>
                 <th scope='col' className='w-16 text-center'>
-                  No
+                  {t('no')}
                 </th>
 
                 <th
@@ -141,7 +143,7 @@ export default function ListPage() {
                   onClick={() => dispatch(setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'))}
                 >
                   <div className='flex items-center gap-1'>
-                    Name
+                    {t('name')}
 
                     <span>
                       <FontAwesomeIcon icon={sortOrder === 'asc' ? faCaretUp : faCaretDown} />
@@ -150,7 +152,7 @@ export default function ListPage() {
                 </th>
 
                 <th scope='col' className='w-32 text-center'>
-                  Action
+                  {t('action')}
                 </th>
               </tr>
             </thead>
@@ -174,7 +176,7 @@ export default function ListPage() {
                         className='btn btn-gray px-2 py-1'
                         onClick={() => dispatch(setSelectedDetail(item))}
                       >
-                        Detail
+                        {t('detail')}
                       </button>
 
                       <button

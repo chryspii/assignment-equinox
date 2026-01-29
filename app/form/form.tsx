@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { useAppSelector } from '@/store/hooks';
 
@@ -24,6 +25,7 @@ type Props = {
 
 export default function Form ({ mode, initialData, onSubmit }: Props) {
   const router = useRouter();
+  const t = useTranslations('main');
   const selected = useAppSelector((state) => state.list.selected);
 
   const [form, setForm] = useState<FormData>({
@@ -98,12 +100,12 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
   return (
     <main className='section'>
       <h2 className='section-title'>
-        {mode === 'add' ? 'Add New Item' : `Edit Item: ${form.title}`}
+        {mode === 'add' ? t('add new item') : `${t('edit item')}: ${form.title}`}
       </h2>
       <div className='bg-white rounded-lg shadow'>
         <AlertModal
           open={showAlert}
-          message='Data saved successfully'
+          message={t('success message')}
           onClose={() => setShowAlert(false)}
         />
 
@@ -115,7 +117,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
           {/* TITLE */}
           <div>
             <label className='input-label'>
-              Title
+              {t('title')}
             </label>
 
             <input
@@ -134,7 +136,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
           {/* PRICE */}
           <div>
             <label className='input-label'>
-              Price
+              {t('price')}
             </label>
 
             <input
@@ -154,7 +156,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
           {/* DESCRIPTION */}
           <div>
             <label className='input-label'>
-              Description
+              {t('description')}
             </label>
 
             <textarea
@@ -173,7 +175,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
           {/* CATEGORY */}
           <div>
             <label className='input-label'>
-              Category
+              {t('category')}
             </label>
 
             <input
@@ -191,7 +193,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
           {/* IMAGE */}
           <div>
             <label className='input-label'>
-              Image Url
+              {t('image url')}
             </label>
 
             <input
@@ -209,7 +211,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
           {/* RATING */}
           <div>
             <label className='input-label'>
-              Rating
+              {t('rating')}
             </label>
 
             <input
@@ -233,7 +235,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
               onClick={() => router.push('/list')}
               className='btn btn-gray px-3 py-2'
             >
-              Back
+              {t('back')}
             </button>
 
             {!isSaved && (
@@ -242,7 +244,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
                 onClick={handleSave}
                 className='btn btn-blue px-4 py-2'
               >
-                Save
+                {t('save')}
               </button>
             )}
           </div>

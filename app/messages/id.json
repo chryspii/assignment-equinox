@@ -1,0 +1,47 @@
+{
+  "sidebar": {
+    "list": "Daftar",
+    "detail": "Detail",
+    "module": "Modul"
+  },
+  "navbar": {},
+  "footer": {
+    "footer": "Footer"
+  },
+  "main": {
+    "save": "Simpan",
+    "edit": "Ubah",
+    "clear": "Hapus",
+    "list": "Daftar",
+    "show": "Tampilkan",
+    "items": "Barang",
+    "search": "Cari...",
+    "add": "Tambah",
+    "no": "No",
+    "name": "Nama",
+    "action": "Aksi",
+    "selected item": "Barang yang dipilih",
+    "detail": "Detail",
+    "go": "Go",
+    "select item": "Pilih barang",
+    "growth time": "Waktu pertumbuhan",
+    "max harvest": "Panen Maksimal",
+    "size": "Ukuran",
+    "smoothness": "Kehalusan",
+    "soil dryness": "Kekeringan tanah",
+    "add new item": "Tambah barang baru",
+    "edit item": "Ubah barang",
+    "title": "Nama",
+    "price": "harga",
+    "description": "Deskripsi",
+    "category": "Kategori",
+    "image url": "Url gambar",
+    "rating": "Rating",
+    "back": "Kembali",
+    "close": "Tutup",
+    "dashboard": "Dashboard",
+    "welcome": "Selamat datang! Silahkan pilih menu",
+    "success": "Berhasil",
+    "success message": "Data berhasil tersimpan"
+  }
+}

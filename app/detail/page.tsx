@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import DetailSkeleton from '@/components/skeletons/DetailSkeleton'
 
@@ -25,6 +26,8 @@ type ItemDetail = {
 };
 
 export default function DetailPage() {
+  const t = useTranslations('main');
+
   const [items, setItems] = useState<ItemOption[]>([]);
   const [selectedId, setSelectedId] = useState<number | ''>('');
   const [detail, setDetail] = useState<ItemDetail | null>(null);
@@ -81,7 +84,7 @@ export default function DetailPage() {
   return (
     <main className='section'>
       <h2 className='section-title'>
-        Detail
+        {t('detail')}
       </h2>
 
       <div className='card'>
@@ -95,7 +98,7 @@ export default function DetailPage() {
             }}
             className='select-base flex-1'
           >
-            <option value=''>Select Item</option>
+            <option value=''>{t('select item')}</option>
             {items.map((b) => (
               <option key={b.id} value={b.id}>
                 {b.name}
@@ -108,7 +111,7 @@ export default function DetailPage() {
             disabled={!selectedId}
             className='bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-40'
           >
-            Go
+            {t('go')}
           </button>
         </div>
       </div>
@@ -122,7 +125,7 @@ export default function DetailPage() {
               <tbody>
                 <tr className='border-none'>
                   <td className='whitespace-nowrap w-20'>
-                    Name
+                    {t('name')}
                   </td>
                   <td className='whitespace-nowrap'>
                     : {detail.name}
@@ -131,7 +134,7 @@ export default function DetailPage() {
 
                 <tr className='border-none'>
                   <td className='whitespace-nowrap'>
-                    Growth Time
+                    {t('growth time')}
                   </td>
                   <td className='whitespace-nowrap'>
                     : {detail.growth_time}
@@ -140,7 +143,7 @@ export default function DetailPage() {
 
                 <tr className='border-none'>
                   <td className='whitespace-nowrap'>
-                    Max Harvest
+                    {t('max harvest')}
                   </td>
                   <td className='whitespace-nowrap'>
                     : {detail.max_harvest}
@@ -149,7 +152,7 @@ export default function DetailPage() {
 
                 <tr className='border-none'>
                   <td className='whitespace-nowrap'>
-                    Size
+                    {t('size')}
                   </td>
                   <td className='whitespace-nowrap'>
                     : {detail.size}
@@ -158,7 +161,7 @@ export default function DetailPage() {
 
                 <tr className='border-none'>
                   <td className='whitespace-nowrap'>
-                    Smoothness
+                    {t('smoothness')}
                   </td>
                   <td className='whitespace-nowrap'>
                     : {detail.smoothness}
@@ -167,7 +170,7 @@ export default function DetailPage() {
 
                 <tr className='border-none'>
                   <td className='whitespace-nowrap'>
-                    Soil Dryness
+                    {t('soil dryness')}
                   </td>
                   <td className='whitespace-nowrap'>
                     : {detail.soil_dryness}

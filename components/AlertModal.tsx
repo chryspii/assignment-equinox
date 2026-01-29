@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 type AlertModalProps = {
   open: boolean;
   title?: string;
@@ -7,9 +9,15 @@ type AlertModalProps = {
   onClose: () => void;
 };
 
-export default function AlertModal({ open, title = 'Success', message, onClose }: AlertModalProps) {
+export default function AlertModal({ open, title, message, onClose }: AlertModalProps) {
+  const t = useTranslations('main');
+
   if (!open) {
     return null;
+  }
+
+  if (!title) {
+    title = t('success')
   }
 
   return (
@@ -32,7 +40,7 @@ export default function AlertModal({ open, title = 'Success', message, onClose }
           onClick={onClose}
           className='btn-blue w-full py-1'
         >
-          OK
+          {t('close')}
         </button>
       </div>
     </div>

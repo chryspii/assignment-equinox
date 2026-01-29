@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList, faCircleInfo, faLayerGroup, faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -12,10 +13,11 @@ type SidebarProps = {
 
 export default function Sidebar ({ expanded }: SidebarProps) {
   const pathname = usePathname();
+  const t = useTranslations('sidebar');
 
   const menu = [
-    { label: 'List', href: '/list', icon: faList },
-    { label: 'Detail', href: '/detail', icon: faCircleInfo }
+    { label: t('list'), href: '/list', icon: faList },
+    { label: t('detail'), href: '/detail', icon: faCircleInfo }
   ];
 
   return (
@@ -23,11 +25,14 @@ export default function Sidebar ({ expanded }: SidebarProps) {
       fixed top-0 left-0 h-screen z-40 bg-gray-900 text-gray-100 transition-all duration-300
       ${expanded ? 'w-64' : 'w-16'}
     `}>
-      <div className='h-14 flex items-center justify-center'>
+      <Link
+        href="/"
+        className="h-14 flex items-center justify-center transition"
+      >
         <span className='text-lg font-semibold'>
           {expanded ? 'Admin' : 'A'}
         </span>
-      </div>
+      </Link>
 
       {expanded && (
         <div className='m-2'>
@@ -41,7 +46,7 @@ export default function Sidebar ({ expanded }: SidebarProps) {
               className='w-full appearance-none bg-gray-800 border border-gray-700 text-gray-200 rounded py-2 pl-10 pr-8 focus:outline-none focus:ring-1 focus:ring-gray-500 hover:bg-gray-700'
               defaultValue=''
             >
-              <option value='' disabled>Module</option>
+              <option value='' disabled>{t('module')}</option>
             </select>
 
             <span className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs'>

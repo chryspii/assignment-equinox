@@ -1,0 +1,47 @@
+{
+  "sidebar": {
+    "list": "List",
+    "detail": "Detail",
+    "module": "Module"
+  },
+  "navbar": {},
+  "footer": {
+    "footer": "Footer"
+  },
+  "main": {
+    "save": "Save",
+    "edit": "Edit",
+    "clear": "Clear",
+    "list": "List",
+    "show": "Show",
+    "items": "Items",
+    "search": "Search...",
+    "add": "Add",
+    "no": "No",
+    "name": "Name",
+    "action": "Action",
+    "selected item": "Selected item",
+    "detail": "Detail",
+    "go": "Go",
+    "select item": "Select item",
+    "growth time": "Growth time",
+    "max harvest": "Max harvest",
+    "size": "Size",
+    "smoothness": "Smoothness",
+    "soil dryness": "Soil dryness",
+    "add new item": "Add new item",
+    "edit item": "Edit item",
+    "title": "Name",
+    "price": "Price",
+    "description": "Description",
+    "category": "Category",
+    "image url": "Image Url",
+    "rating": "Rating",
+    "back": "Back",
+    "close": "Close",
+    "dashboard": "Dashboard",
+    "welcome": "Welcome! Please select menu",
+    "success": "Success",
+    "success message": "Data saved successfully"
+  }
+}

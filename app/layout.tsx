@@ -10,6 +10,8 @@ import Footer from '@/components/Footer';
 import { store } from '@/store';
 import { hydrate, markHydrated } from '@/store/listSlice';
 
+import { LanguageProvider } from '@/app/context/LanguageContext';
+
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
@@ -39,22 +41,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <Provider store={store}>
         <body>
-          <Sidebar expanded={sidebarExpanded} />
+          <LanguageProvider>
+            <Sidebar expanded={sidebarExpanded} />
 
-          <div
-            className={`
-              ml-16 transition-all duration-300 min-h-screen flex flex-col
-              ${sidebarExpanded ? 'md:ml-64' : 'md:ml-16'}                
-            `}
-          >
-            <Navbar onToggleSidebar={() => setSidebarExpanded((v) => !v)} />
+            <div
+              className={`
+                ml-16 transition-all duration-300 min-h-screen flex flex-col
+                ${sidebarExpanded ? 'md:ml-64' : 'md:ml-16'}                
+              `}
+            >
+              <Navbar onToggleSidebar={() => setSidebarExpanded((v) => !v)} />
 
-            <main className='flex-1 p-6 bg-gray-100'>
-              {children}
-            </main>
+              <main className='flex-1 p-6 bg-gray-100'>
+                {children}
+              </main>
 
-            <Footer />
-          </div>
+              <Footer />
+            </div>
+          </LanguageProvider>
         </body>
       </Provider>
     </html>
