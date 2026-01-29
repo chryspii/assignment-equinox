@@ -1,26 +1,54 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer components {
+  .section {
+    @apply flex-1 p-6 bg-gray-100;
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  .section-title {
+    @apply text-2xl font-semibold mb-4;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  .section .card {
+    @apply bg-white rounded-lg shadow;
+  }
+
+  .btn {
+    @apply disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-default {
+    @apply rounded border;
+  }
+
+  .btn-blue {
+    @apply rounded bg-blue-500 hover:bg-blue-700 text-white border;
+  }
+
+  .btn-green {
+    @apply rounded bg-green-600 hover:bg-green-800 text-white border;
+  }
+
+  .btn-gray {
+    @apply rounded bg-gray-500 hover:bg-gray-700 text-white border;
+  }
+
+  .btn-red {
+    @apply rounded bg-red-500 hover:bg-red-700 text-white border;
   }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: red; 
+  /* color: rgb(74, 85, 104); */
   font-family: Arial, Helvetica, sans-serif;
+  @apply text-sm
+}
+
+.border {
+  border-color: rgb(226, 232, 240);
 }
