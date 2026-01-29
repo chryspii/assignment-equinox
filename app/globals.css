@@ -16,6 +16,30 @@
     @apply bg-white rounded-lg shadow;
   }
 
+  select.select-base {
+    @apply border rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+
+  .table-base {
+    @apply w-full text-left rtl:text-right;
+  }
+
+  .table-base > thead {
+    @apply border-b;
+  }
+
+  .table-base > tbody tr {
+    @apply border-b hover:bg-gray-200;
+  }
+
+  .table-base th, .table-base td {
+    @apply px-6 py-2;
+  }
+
+  .table-base th {
+    @apply font-medium;
+  }
+
   .btn {
     @apply disabled:opacity-40 disabled:cursor-not-allowed;
   }
