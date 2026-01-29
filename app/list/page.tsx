@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setPage, setLimit, setSearch, setSelected } from '@/store/listSlice';
+import { setPage, setLimit, setSearch, setSortOrder, setSelected, setSelectedDetail, clearSelectedDetail } from '@/store/listSlice';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faPen, faTrash, faTimes, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+
+import TableSkeleton from '@/components/skeletons/TableSkeleton';
 
 type Item = {
   id: number;
@@ -20,7 +22,8 @@ export default function ListPage() {
 
   const dispatch = useAppDispatch();
 
-  const { page, limit, search } = useAppSelector((state) => state.list);
+  const { page, limit, search, sortOrder } = useAppSelector((state) => state.list);
+  const selectedDetail = useAppSelector((state) => state.list.selectedDetail);
 
   const [data, setData] = useState<Item[]>([]);
   const [total, setTotal] = useState(0);
@@ -55,11 +58,38 @@ export default function ListPage() {
     item.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return a.name.localeCompare(b.name);
+    }
+
+    return b.name.localeCompare(a.name);
+  });
+
   const totalPages = Math.ceil(total / limit);
 
   return (
     <main className='section'>
       <h2 className='section-title'>List</h2>
+
+      {selectedDetail && (
+        <div className='card mb-2'>
+          <div className='relative overflow-x-auto px-4 py-4'>
+            <div className='flex items-center gap-3 text-gray-700'>
+              <span>
+                Selected Item: {selectedDetail.name}
+              </span>
+
+              <button
+                onClick={() => dispatch(clearSelectedDetail())}
+                className='btn btn-red px-1.5 py-1'
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className='card'>
         <div className='flex items-center justify-between p-4'>
@@ -105,8 +135,18 @@ export default function ListPage() {
                   No
                 </th>
 
-                <th scope='col'>
-                  Name
+                <th
+                  scope='col'
+                  className='cursor-pointer'
+                  onClick={() => dispatch(setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'))}
+                >
+                  <div className='flex items-center gap-1'>
+                    Name
+
+                    <span>
+                      <FontAwesomeIcon icon={sortOrder === 'asc' ? faCaretUp : faCaretDown} />
+                    </span>
+                  </div>
                 </th>
 
                 <th scope='col' className='w-32 text-center'>
@@ -116,33 +156,44 @@ export default function ListPage() {
             </thead>
 
             <tbody>
-              {filtered.map((item, i) => (
-                <tr key={item.name}>
-                  <td className='whitespace-nowrap text-center'>
-                    {offset + i + 1}
-                  </td>
+              {loading ? (
+                <TableSkeleton rows={limit} />
+              ) : (
+                sorted.map((item, i) => (
+                  <tr key={item.name}>
+                    <td className='whitespace-nowrap text-center'>
+                      {offset + i + 1}
+                    </td>
 
-                  <td className='whitespace-nowrap'>
-                    {item.name}
-                  </td>
+                    <td className='whitespace-nowrap'>
+                      {item.name}
+                    </td>
 
-                  <td className='whitespace-nowrap text-center space-x-2'>
-                    <button
-                        className='btn btn-blue px-2 py-1'
-                        onClick={() => {
-                          dispatch(setSelected(item));
-                          router.push('/form/edit');
-                        }}
+                    <td className='whitespace-nowrap text-center space-x-2'>
+                      <button
+                        className='btn btn-gray px-2 py-1'
+                        onClick={() => dispatch(setSelectedDetail(item))}
                       >
-                        <FontAwesomeIcon icon={faPen} />
+                        Detail
                       </button>
 
-                    <button className='btn btn-red px-2 py-1'>
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                      <button
+                          className='btn btn-blue px-2 py-1'
+                          onClick={() => {
+                            dispatch(setSelected(item));
+                            router.push('/form/edit');
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faPen} />
+                        </button>
+
+                      <button className='btn btn-red px-2 py-1'>
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

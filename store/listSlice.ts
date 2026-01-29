@@ -10,7 +10,9 @@ type ListState = {
   page: number;
   limit: number;
   search: string;
+  sortOrder: "asc" | "desc";
   selected?: Item;
+  selectedDetail?: Item;
   hydrated: boolean;
 };
 
@@ -18,7 +20,9 @@ const initialState: ListState = {
   page: 1,
   limit: 10,
   search: "",
+  sortOrder: "asc",
   selected: undefined,
+  selectedDetail: undefined,
   hydrated: false
 };
 
@@ -46,14 +50,23 @@ const listSlice = createSlice({
       state.search = action.payload;
       state.page = 1;
     },
+    setSortOrder(state, action: PayloadAction<"asc" | "desc">) {
+      state.sortOrder = action.payload;
+    },
     setSelected(state, action: PayloadAction<Item>) {
       state.selected = action.payload;
     },
     clearSelected(state) {
       state.selected = undefined;
+    },
+    setSelectedDetail(state, action: PayloadAction<Item>) {
+      state.selectedDetail = action.payload;
+    },
+    clearSelectedDetail(state) {
+      state.selectedDetail = undefined;
     }
-  },
+  }
 });
 
-export const { hydrate, markHydrated, setPage, setLimit, setSearch, setSelected, clearSelected } = listSlice.actions;
+export const { hydrate, markHydrated, setPage, setLimit, setSearch, setSortOrder, setSelected, clearSelected, setSelectedDetail, clearSelectedDetail } = listSlice.actions;
 export default listSlice.reducer;
