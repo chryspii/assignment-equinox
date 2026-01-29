@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import AlertModal from "@/components/AlertModal";
+import { useAppSelector } from '@/store/hooks';
+
+import AlertModal from '@/components/AlertModal';
 
 export type FormData = {
   title: string;
@@ -22,6 +24,7 @@ type Props = {
 
 export default function Form ({ mode, initialData, onSubmit }: Props) {
   const router = useRouter();
+  const selected = useAppSelector((state) => state.list.selected);
 
   const [form, setForm] = useState<FormData>({
     title: initialData?.title ?? '',
@@ -47,9 +50,49 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(form);
+  };
 
-    setIsSaved(true);
-    setShowAlert(true);
+  const handleSave = async () => {
+    try {
+      let url = 'https://fakestoreapi.com/products'
+      let method = 'POST'
+      if (mode === 'edit') {
+        url = `https://fakestoreapi.com/products/${selected!.id}`
+        method = 'PUT'
+      }
+
+      const body = JSON.stringify({
+        title: form.title,
+        price: Number(form.price),
+        description: form.description,
+        image: form.image,
+        category: form.category
+      })
+
+      const res = await fetch(url,
+        {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error('Failed to save data');
+      }
+
+      const data = await res.json();
+      console.log(mode === 'edit' ? 'Updated:' : 'Created:', data);
+
+      setIsSaved(true);
+      setShowAlert(true);
+    } catch (error) {
+      console.error(error);
+
+      alert('Failed to save data');
+    }
   };
 
   return (
@@ -60,7 +103,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
       <div className='bg-white rounded-lg shadow'>
         <AlertModal
           open={showAlert}
-          message="Data saved successfully"
+          message='Data saved successfully'
           onClose={() => setShowAlert(false)}
         />
 
@@ -187,7 +230,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
           <div className='flex justify-end gap-2 pt-4'>
             <button
               type='button'
-              onClick={() => router.back()}
+              onClick={() => router.push('/list')}
               className='btn btn-gray px-3 py-2'
             >
               Back
@@ -196,6 +239,7 @@ export default function Form ({ mode, initialData, onSubmit }: Props) {
             {!isSaved && (
               <button
                 type='submit'
+                onClick={handleSave}
                 className='btn btn-blue px-4 py-2'
               >
                 Save
