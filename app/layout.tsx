@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 import { store } from '@/store';
+import { hydrate, markHydrated } from '@/store/listSlice';
 
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -19,6 +20,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
   useEffect(() => {
+    const saved = localStorage.getItem('listState');
+
+    if (saved) {
+      store.dispatch(hydrate(JSON.parse(saved)));
+    } else {
+      store.dispatch(markHydrated());
+    }
+
     const unsubscribe = store.subscribe(() => {
       localStorage.setItem('listState', JSON.stringify(store.getState().list));
     });

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setPage, setLimit, setSearch } from '@/store/listSlice';
+import { setPage, setLimit, setSearch, setSelected } from '@/store/listSlice';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -86,6 +86,13 @@ export default function ListPage() {
               placeholder='Search...'
               className='input-base'
             />
+
+            <button
+              className='btn btn-green px-3 py-2'
+              onClick={() => router.push('/form/add')}
+            >
+              Add
+            </button>
           </div>
         </div>
 
@@ -120,9 +127,15 @@ export default function ListPage() {
                   </td>
 
                   <td className='whitespace-nowrap text-center space-x-2'>
-                    <button className='btn btn-blue px-2 py-1'>
-                      <FontAwesomeIcon icon={faPen} />
-                    </button>
+                    <button
+                        className='btn btn-blue px-2 py-1'
+                        onClick={() => {
+                          dispatch(setSelected(item));
+                          router.push('/form/edit');
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faPen} />
+                      </button>
 
                     <button className='btn btn-red px-2 py-1'>
                       <FontAwesomeIcon icon={faTrash} />
