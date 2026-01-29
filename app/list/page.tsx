@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setPage, setLimit } from '@/store/listSlice';
+import { setPage, setLimit, setSearch } from '@/store/listSlice';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -20,7 +20,7 @@ export default function ListPage() {
 
   const dispatch = useAppDispatch();
 
-  const { page, limit } = useAppSelector((state) => state.list);
+  const { page, limit, search } = useAppSelector((state) => state.list);
 
   const [data, setData] = useState<Item[]>([]);
   const [total, setTotal] = useState(0);
@@ -51,6 +51,10 @@ export default function ListPage() {
       .finally(() => setLoading(false));
   }, [offset, limit]);
 
+  const filtered = data.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   const totalPages = Math.ceil(total / limit);
 
   return (
@@ -74,6 +78,15 @@ export default function ListPage() {
 
             <span>Items</span>
           </div>
+
+          <div className='flex items-center gap-2'>
+            <input
+              value={search}
+              onChange={(e) => dispatch(setSearch(e.target.value))}
+              placeholder='Search...'
+              className='input-base'
+            />
+          </div>
         </div>
 
         {/* TABLE */}
@@ -96,7 +109,7 @@ export default function ListPage() {
             </thead>
 
             <tbody>
-              {data.map((item, i) => (
+              {filtered.map((item, i) => (
                 <tr key={item.name}>
                   <td className='whitespace-nowrap text-center'>
                     {offset + i + 1}

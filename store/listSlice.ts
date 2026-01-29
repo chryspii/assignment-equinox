@@ -9,11 +9,13 @@ export type Item = {
 type ListState = {
   page: number;
   limit: number;
+  search: string;
 };
 
 const initialState: ListState = {
   page: 1,
   limit: 10,
+  search: ""
 };
 
 const listSlice = createSlice({
@@ -26,9 +28,13 @@ const listSlice = createSlice({
     setLimit(state, action: PayloadAction<number>) {
       state.limit = action.payload;
       state.page = 1;
+    },
+    setSearch(state, action: PayloadAction<string>) {
+      state.search = action.payload;
+      state.page = 1;
     }
   },
 });
 
-export const { setPage, setLimit } = listSlice.actions;
+export const { setPage, setLimit, setSearch } = listSlice.actions;
 export default listSlice.reducer;
